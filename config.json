@@ -1,0 +1,4 @@
+{
+    "poll_interval": 1,
+    "rate_limit_per_minute": 30
+}
