@@ -20,3 +20,6 @@ websocket_*
 scripts/
 test_*
 old_data/
+tests/
+pytest.ini
+.pytest_cache

@@ -477,7 +477,9 @@ class RiotSession:
         for line in cls._read_lines(log_path):
             if match := re.search(r"CI server version:\s*(.+)", line):
                 parts = match.group(1).strip().split("-")
-                _ = parts.insert(2, "shipping")
+                # Older logs omit "shipping"; newer ones include it. Only insert when missing.
+                if "shipping" not in parts:
+                    _ = parts.insert(2, "shipping")
                 version = "-".join(parts)
                 logger.info(f"Got version from logs: {version}")
                 return version
@@ -544,7 +546,9 @@ class RiotSession:
     async def general_get_store(self) -> StorefrontResponse:
         """Fetch the player's current storefront (daily offers, bundles, etc.)."""
         response = await self.fetch("POST", "pd", EndpointURI(f"/store/v3/storefront/{self.puuid}"), payload={})
-        return StorefrontResponse(**response.json())  # pyright: ignore[reportAny]
+        data: dict[str, Any] = response.json()  # pyright: ignore[reportExplicitAny, reportAny]
+        known = {f.name for f in fields(StorefrontResponse)}
+        return StorefrontResponse(**{k: v for k, v in data.items() if k in known})  # pyright: ignore[reportAny]
 
     async def general_get_history(self, puuid: str, start_index: int, end_index: int) -> MatchHistoryResponse:
         """Fetch a page of match history for any player

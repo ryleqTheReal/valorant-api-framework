@@ -146,7 +146,7 @@ class EventBus:
         Returns a list of return values from each listener.
         """
         log_level = logging.DEBUG if event in _HIGH_FREQUENCY_EVENTS else logging.INFO
-        logger.log(log_level, f"Event: {event.name}" + (f" | data={data}" if data is not None else ""))
+        logger.log(log_level, f"Event: {event.name}")
 
         results: list[object] = []
         to_remove: list[Listener] = []

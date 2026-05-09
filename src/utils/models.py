@@ -904,7 +904,8 @@ class PlayerMMRResponse:
 
     def __post_init__(self) -> None:
         if isinstance(self.LatestCompetitiveUpdate, dict):
-            self.LatestCompetitiveUpdate = _LatestCompetitiveUpdate(**self.LatestCompetitiveUpdate)  # pyright: ignore[reportArgumentType]
+            known = {f.name for f in fields(_LatestCompetitiveUpdate)}
+            self.LatestCompetitiveUpdate = _LatestCompetitiveUpdate(**{k: v for k, v in self.LatestCompetitiveUpdate.items() if k in known})  # pyright: ignore[reportArgumentType]
         if self.QueueSkills:
             first_val = next(iter(self.QueueSkills.values()))
             if isinstance(first_val, dict):
