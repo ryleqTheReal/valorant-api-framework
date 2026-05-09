@@ -1,0 +1,7 @@
+.vscode/
+.venv
+__pycache__
+test
+tempCodeRunnerFile.py
+.claude/
+ws_dump.json

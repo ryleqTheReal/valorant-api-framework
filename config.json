@@ -1,0 +1,7 @@
+{
+    "server_base_url": "",
+    "poll_interval": 1,
+    "collect_interval": 60,
+    "enable_data_sending": true,
+    "ratelimit_timeout": 60
+}
